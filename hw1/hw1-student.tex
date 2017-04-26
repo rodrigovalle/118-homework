@@ -1,0 +1,205 @@
+\documentclass{report}
+\usepackage{homework}
+\solstrue
+
+\renewcommand{\hmwkTitle}{Homework 1}
+\renewcommand{\hmwkAuthorName}{Rodrigo Valle -- 104 494 120}
+
+\begin{document}
+\mktitle
+
+\begin{problem}
+
+
+\newcommand{\ENDL}{$<$CR$>$$<$LF$>$}
+
+Consider the following string of ASCII characters that were captured by
+$Wireshark$ when the browser sent an HTTP GET message (i.e., this is the
+actual content of an HTTP GET message). The characters \texttt{\ENDL{}} are
+carriage-return and line-feed characters. Answer the following questions,
+indicating where in the HTTP GET message below you find the answer.\\
+
+\begin{raggedright}
+\texttt{GET /classes/spring17/cs118/project-1.html HTTP/1.1\ENDL\\
+Host: web.cs.ucla.edu\ENDL\\
+Connection: keep-alive\ENDL\\
+Upgrade-Insecure-Requests: 1\ENDL\\
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10\_12\_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\ENDL\\
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\ENDL\\
+Referer: http://web.cs.ucla.edu/classes/spring17/cs118/homeworks.html\ENDL\\
+Accept-Encoding: gzip, deflate, sdch\ENDL\\
+Accept-Language: en-US,en;q=0.8,lv;q=0.6,ru;q=0.4\ENDL\\
+If-None-Match: "5a17-54c4847c4f640-gzip"\ENDL\\
+If-Modified-Since: Mon, 03 Apr 2017 19:36:49 GMT\ENDL\\
+}
+\end{raggedright}
+
+\begin{enumerate}
+\item What is the \textbf{full} URL of the document requested by the browser?
+\item What version of HTTP is the browser running?
+\item What type of browser initiates this message? Why is the browser type
+      needed in an HTTP  request message?
+\item What is the IP Address of the host on which the browser is running?
+\end{enumerate}
+
+\begin{answer}{30em}
+  \begin{enumerate}
+  \item http://web.cs.ucla.edu/classes/spring17/cs118/project-1.html
+  \item From the end of the first line: \texttt{HTTP/1.1}
+  \item From the \texttt{User-Agent} header, with a little research:
+        \texttt{Chrome 56}.\\
+        This message is useful to the application developer if the developer
+        wishes to support multiple browsers that may not adhere to the
+        standard. The server can parse this User-Agent to identify the
+        type of browser and serve a modified version of the app which was
+        tested on that browser.
+
+        This link was helpful in answering this question:\\
+        \url{https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent}
+  \item These HTTP headers do not provide us with that information; in fact,
+        it's a rather odd question to ask at this level because the
+        source/destination IP address is what the IP layer uses in the IP
+        header to deliver the individual packets that compose this HTTP
+        request.
+  \end{enumerate}
+\end{answer}
+\end{problem}
+
+\begin{problem}
+
+Alice and Bob are working remotely on a course project and are using
+\texttt{git} as the version control software.
+
+\begin{enumerate}
+\item Is it true that one must have GitHub/GitLab account to use git?
+\item What is(are) the command(s) to initialize a local git repository?
+\item Do Alice and Bob both must initialize local git repository? If no, what
+      are the alternative?
+\item Let's consider that Alice modified the file \texttt{server.cpp}:
+  \begin{enumerate}
+  \item What git commands Alice needs to save modifications in the local git
+        repository
+  \item What git commands Alice needs to upload saved modifications to GitHub
+  \item What git commands Bob needs to get Alice's changes and apply them to
+        the local repository
+  \end{enumerate}
+\item Let's consider that both Alice and Bob modified the file
+      \texttt{server.cpp} and Alice was first to successfully upload saved
+      modifications (commit) to GitHub
+  \begin{enumerate}
+  \item Can Bob upload his changes without any additional actions? If no, why?
+  \item If actions needed, list git commands that Bob will need to use to
+        share his modifications with Alice.
+  \end{enumerate}
+\end{enumerate}
+
+\begin{answer}{37em}
+  \begin{enumerate}
+  \item It is absolutely false that you must have a GitHub/GitLab account to
+        use git. They are different tools; git is used for version control and
+        GitHub/GitLab are hosting solutions for git repositories.
+  \item The command to initialize a local git repository in your current
+        working directory is \texttt{git init}
+  \item Alice and Bob probably shouldn't both initialize a local git
+        repository unless they want to create a lot more work for themselves.
+        It's much easier for one of them (e.g. Alice) to set up the
+        respository on GitHub (e.g. at the URL
+        \texttt{http://github.com/Alice/repository.git}) and for the other
+        (e.g. Bob) to run the command
+        \texttt{git clone http://github.com/Alice/respository.git}
+  \item
+    \begin{enumerate}
+    \item To save modifications in the local repository, Alice should run the
+          commands:\\
+          \texttt{
+            git add server.txt \# adds server.txt to commit staging\\
+            git commit \# creates a new commit which stores the changes
+          }
+    \item To upload modifications to GitHub, Alice needs to create a
+          repository on GitHub first. Let's say the URL is
+          \texttt{http://github.com/Alice/repository.git}\\
+          \texttt{
+            git remote add origin http://github.com/Alice/repository.git\\
+            git push origin master
+          }
+    \item To get Alice's changes, Bob must run the \texttt{git pull} command
+          which will require him to merge his local commits with the commits
+          on GitHub's servers (if he's made any to the current branch).
+    \end{enumerate}
+  \item
+    \begin{enumerate}
+      \item Bob can't upload his changes to GitHub without additional action
+            because his changes are in conflict with Alice's changes on
+            GitHub's server -- git has two versions of what
+            \texttt{server.cpp} should look like and we need to specify which
+            changes will make it to the ``final'' version of
+            \texttt{server.cpp} (this process is known as merging).
+      \item To share his changes, Bob must run \texttt{git pull} which will
+            require him to merge his changes with Alice's (creating a new
+            merge commit that references two parents -- Alice's last commit
+            and Bob's last commit). After the merge is complete, Bob will be
+            able to push his merged changes onto the GitHub server.
+    \end{enumerate}
+  \end{enumerate}
+\end{answer}
+
+\end{problem}
+
+
+\begin{problem}
+
+You will learn some basic usages of \texttt{Vagrant} and \texttt{Docker} in your projects.
+
+\begin{enumerate}
+\item What is Vagrant mainly used for?
+\item What is Docker mainly used for?
+\item List at least one difference between Vagrant's ``box'' and Docker's
+      ``container''?
+\item List at least five commands you can use with Vagrant.
+\item List at least five commands you can use with Docker.
+\end{enumerate}
+
+\begin{answer}{35em}
+  \begin{enumerate}
+    \item Vagrant is used to create development environments running on
+          virtual machines that are identical to the environment used in
+          production for ease of testing, development, and potentially
+          deployment. The VM is actually simulated by a provider like VMWare,
+          Virtualbox, etc.
+    \item Docker is different from Vagrant; it's used to wrap an application
+          in a filesystem/execution environment that has everything the app
+          needs to run correctly. The idea is that this ``container'' is
+          standardized and can be ``shipped'' and executed on different
+          machines, where the application will run in the same environment
+          regardless of physical machine.
+    \item The difference between Vagrant's box and Docker's container is how
+          they abstract the application environment: Vagrant relies on
+          virtualization, whereas Docker relies on containerization.
+          Virtualization requires the emulation of an operating system on
+          simulated hardware and is in a computational sense more expensive to
+          do than containerization. With containerization, the application
+          runs directly on the host OS and hardware, but in an execution
+          environment that is isolated from the rest of the OS through
+          specially designed software tools.
+    \item
+      \begin{enumerate}
+        \item \texttt{vagrant init \# creates Vagrantfile}
+        \item \texttt{vagrant up \# starts and sets up VM environment}
+        \item \texttt{vagrant ssh \# access the VM}
+        \item \texttt{vagrant halt \# stop the VM}
+        \item \texttt{vagrant reload \# restart the VM with new configuration}
+      \end{enumerate}
+    \item
+      \begin{enumerate}
+        \item \texttt{docker ps \# list running containers}
+        \item \texttt{docker build \# build Docker image from Dockerfile}
+        \item \texttt{docker run \# run a container}
+        \item \texttt{docker attach \# enter a running container}
+        \item \texttt{docker kill \# stop a running container}
+      \end{enumerate}
+  \end{enumerate}
+\end{answer}
+
+\end{problem}
+
+\end{document}
