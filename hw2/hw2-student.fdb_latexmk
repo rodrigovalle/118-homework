@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1492660538 "hw2-student.tex" "hw2-student.pdf" "hw2-student" 1492660623
+["pdflatex"] 1492660538 "hw2-student.tex" "hw2-student.pdf" "hw2-student" 1493239946
   "/usr/local/share/texmf/tex/latex/changepage/chngpage.sty" 1491883554 4325 1a4bfd40b7e0a7ed0d541fef6c68f28d ""
   "/usr/local/share/texmf/tex/latex/environ/environ.sty" 1491883650 4378 f429f0da968c278653359293040a8f52 ""
   "/usr/local/share/texmf/tex/latex/lastpage/lastpage.sty" 1491876142 9922 eb7d00b99f0f5207f71a5cdcbafceac1 ""
@@ -78,9 +78,9 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1492244652 31661 3832dc67fcae1bb0c47594ea86c25797 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1492554341 334148 1b9d30ff8c861d6082e3e9bfccd8d7eb ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1492554331 7252863 1fad24865493556bc400dfa63e23358c ""
-  "homework.sty" 1491711795 3781 a51cf54d30c07ba643e13c9e0d7e8f33 ""
-  "hw2-student.aux" 1492660538 90 749caa80a52d91a47ba150312556d0ef ""
-  "hw2-student.tex" 1492660620 18160 754cd6d8796ebff6c18c080c763db5fe ""
+  "homework.sty" 1493238856 3781 a51cf54d30c07ba643e13c9e0d7e8f33 ""
+  "hw2-student.aux" 1493238856 90 749caa80a52d91a47ba150312556d0ef ""
+  "hw2-student.tex" 1493239927 18160 754cd6d8796ebff6c18c080c763db5fe ""
   (generated)
   "hw2-student.aux"
   "hw2-student.log"
