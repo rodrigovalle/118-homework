@@ -1,0 +1,14 @@
+# tex intermediate files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.zip
+
+# ignore pdfs unless added with -f
+*.pdf
+
+# vim
+*.sw?
