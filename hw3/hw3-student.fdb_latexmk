@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1493250491 "hw3-student.tex" "hw3-student.pdf" "hw3-student" 1493250492
+["pdflatex"] 1493250491 "hw3-student.tex" "hw3-student.pdf" "hw3-student" 1493255229
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1136768653 1536 06717a2b50de47d4087ac0e6cd759455 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -77,9 +77,9 @@
   "/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1488937372 2347740 a64585bea74103e522e12ca1308ca721 ""
   "/usr/local/texlive/2016/texmf-var/web2c/pdftex/pdflatex.fmt" 1488243736 3873789 a8708802b08256067ec93238b012a984 ""
   "/usr/local/texlive/2016/texmf.cnf" 1463979140 577 2938757e76f31531e65cc647e3507693 ""
-  "homework.sty" 1493238856 3781 a51cf54d30c07ba643e13c9e0d7e8f33 ""
-  "hw3-student.aux" 1493250492 90 9fb9578b464f0a61f1c394efc86e5531 ""
-  "hw3-student.tex" 1493250491 9563 61309c0fa154c249ceda650f99270eb3 ""
+  "homework.sty" 1493185844 3781 a51cf54d30c07ba643e13c9e0d7e8f33 ""
+  "hw3-student.aux" 1493186279 90 9fb9578b464f0a61f1c394efc86e5531 ""
+  "hw3-student.tex" 1493255197 9563 61309c0fa154c249ceda650f99270eb3 ""
   (generated)
   "hw3-student.pdf"
   "hw3-student.aux"
