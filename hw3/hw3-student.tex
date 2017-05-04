@@ -125,10 +125,6 @@ e.g., \url{198.41.0.4}.
         Now we ask the .net DNS servers if they have the SRV record for this
         URL. They give us the nameservers for named-data.net.
 
-  \item \texttt{dig @129.82.138.19 +norecurse <url> SRV}
-        Ask the named-data.net nameservers for the SRV record; they respond with
-        a redirection to the nameservers of \_autoconf.named-data.net.
-
   \item \texttt{dig @129.82.138.8 +norecurse <url> SRV} $\Rightarrow$ TTL 86400 \\
         Query the \_autoconf.named-data.net name servers for the SRV record of our URL.
         They respond with the SRV record which contains: the hostname
@@ -247,7 +243,8 @@ have TTL 12 hours.
     \item Server availability/average response time (e.g. if the server for
           your region is under load, it might be faster to go to a server
           that's a little further away but more available)
-    \item XXX
+    \item IP Anycast
+    \item ISP delivery cost (cheaper if you make deals with the ISP)
     \end{enumerate}
 
   \end{enumerate}
