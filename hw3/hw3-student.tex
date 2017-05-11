@@ -86,9 +86,16 @@ ns4.google.com.		215983	IN	A	216.239.38.10
   \item Exactly the same; the TTL is 239 seconds, so in 60 seconds the caching
         resolver will just serve the IP address from cache because the record
         hasn't expired yet.
-  \item 239 seconds (XXX)
-  \item 145521 seconds -- the caching would contact the .com nameserver for the
-        authoritative google nameserver once the ns1.google.com record expires.
+  \item 239 seconds -- that's when the google.com A record expires from cache
+        and the Google nameservers must be contacted again for the A record.
+  \item 55414 seconds -- in this amount of time the authoritative nameserver
+        records for \texttt{google.com} will expire from cache and the
+        \texttt{.com} nameservers would have to be contacted again for these
+        records. Note that the A records for these name servers in the
+        \texttt{ADDITIONAL} section will still be in cache when this happens,
+        but we still need valid nameserver records to verify that these
+        A records belong to the authoritative nameservers of \texttt{google.com}.
+
   \end{enumerate}
 \end{answer}
 
@@ -117,19 +124,31 @@ e.g., \url{198.41.0.4}.
 \begin{answer}{30em}
   Assuming we have nothing in cache: \\
   \begin{enumerate}
-  \item \texttt{dig @198.41.0.4 +norecurse <url> SRV} $\Rightarrow$ TTL 172800 \\
+  \item \texttt{dig @198.41.0.4 +norecurse <url> SRV} $\Rightarrow$ TTL 172800 seconds (valid in cache for this long) \\
         We query the root nameserver. This gives us a list of authoritative
         servers for the .net TLD.
 
-  \item \texttt{dig @192.5.6.30 +norecurse <url> SRV} $\Rightarrow$ TTL 172800 \\
+  \item \texttt{dig @192.5.6.30 +norecurse <url> SRV} $\Rightarrow$ TTL 172800 seconds \\
         Now we ask the .net DNS servers if they have the SRV record for this
         URL. They give us the nameservers for named-data.net.
 
-  \item \texttt{dig @129.82.138.8 +norecurse <url> SRV} $\Rightarrow$ TTL 86400 \\
-        Query the \_autoconf.named-data.net name servers for the SRV record of our URL.
+  \item \texttt{dig @129.82.138.8 +norecurse <url> SRV} $\Rightarrow$ TTL 86400 seconds \\
+        Query the named-data.net name servers for the SRV record of our URL.
         They respond with the SRV record which contains: the hostname
-        \texttt{spurs.cs.ucla.edu} and the port number 6363.
+        \texttt{spurs.cs.ucla.edu} and the port number 6363. They also respond
+        with a list of authoritative nameserver hostnames which control the
+        \texttt{\_autoconf.named-data.net} subdomain.
+
+  \item NOTE: there could have been an extra query here. It just so happens
+        that this particular name server had the SRV record we were looking for.
+        If we had chosen a different nameserver from step 2 we might have had to
+        send another query to \texttt{\_autoconf.named-data.net} nameservers to
+        get our SRV record.
+        (I tried it and this is what happened)
   \end{enumerate}
+
+  The \texttt{+norecurse} option makes sure that these queries are one-off; that is, that none
+  of these servers try to finish the query process for us recursively.
 \end{answer}
 
 \end{problem}
@@ -174,7 +193,7 @@ have TTL 12 hours.
 
 \begin{answer}{30em}
   \begin{enumerate}
-  \item The CSD network "tricks" you by giving the IP address of a cache
+  \item The CSD network ``tricks'' you by giving the IP address of a cache
         resolver which resolves all non-allowed hostnames for non-whitelisted IPs
         (read: clients that aren't logged in) to the (local) IP address of the
         server hosting the login page. The cache resolver is able to do this
@@ -189,7 +208,9 @@ have TTL 12 hours.
         100ms (query .edu) + \\ 100ms (query ucla.edu nameserver for A record)
   \item 10ms (query caching resolver) + 100ms (query ucla.edu nameserver for A record)
   \item 10ms (query caching resolver) + 100ms (query root) +
-        100ms (query .com) + \\ 100ms (query piazza.com nameserver for A record)
+        100ms (query .com) + \\ 100ms (query piazza.com nameserver for A record) \\
+        (I tried this one using \texttt{dig} and the ucla.edu nameserver had an
+        A record for ccle.ucla.edu)
   \item 10ms (query caching resolver) + 100ms (query .com) + \\
         100ms (query gradescope.com nameserver for A record)
   \end{enumerate}
@@ -222,14 +243,9 @@ have TTL 12 hours.
         with a traditional centralized server approach is, for example, if the
         server is in the US and the clients are in China, each message sent
         will impose the RTT from China to the US (assuming message push). This
-        is clearly not ideal for clients in China. Instead, a CDN can estimate
-        the location of each client and connect them both to a server in their
-        vicinity in order to minimize the RTT.
-
-        For example, two clients might come forward to the core CDN node
-        wishing to set up a chat. The CDN will estimate both of their locations
-        from their caching resolver's IPs and tell them to connect to a chat
-        server that is roughly in the middle of both of their locations.
+        is clearly not ideal for clients in China. Instead, a CDN router can
+        estimate the location of each client and connect them both to a server
+        in their vicinity (or roughly inbetween them) in order to minimize the RTT.
   \item
     \begin{enumerate}
     \item Geographic location -- assume the caching resolver is geographically
@@ -237,14 +253,20 @@ have TTL 12 hours.
           is coming from. E.g. if the request is coming from 8.8.8.8, we know
           that IP is registered to Google Inc., which is located in Mountain
           View, so send this caching resolver a record with the IP of the Bay
-          Area node and tell it to cache the record for a while.
+          Area node and tell it to cache the record.
 
-    \item RTT (ping) (correlates well with location)
     \item Server availability/average response time (e.g. if the server for
           your region is under load, it might be faster to go to a server
           that's a little further away but more available)
-    \item IP Anycast
-    \item ISP delivery cost (cheaper if you make deals with the ISP)
+
+    \item RTT (ping) (correlates with location) -- the routing node can
+          estimate latency from various CDN server nodes to the client and chose
+          the server with the lowest latency. If we cache these latencies it
+          would be a big performance win (pinging takes an RTT) (or use Anycast).
+
+    \item ISP cost -- it could cost more to serve from a node peered with a Tier
+          1 ISP, and an alternative could provide comprable performance and
+          cost less money for the CDN. It is a business, after all.
     \end{enumerate}
 
   \end{enumerate}
