@@ -1,0 +1,6 @@
+update devrtt and srtt as long as you are given a simple
+
+1st: 100ms RTT and devrtt is 50ms, RTO: 300ms (assume this doesn't trigger)
+
+problem 3:
+throughput = window * mss / RTT

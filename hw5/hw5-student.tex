@@ -38,16 +38,21 @@ and $\alpha = 1/8, \beta = 1/4$.\\
 retransmitted at a later time.
 
 \begin{enumerate}
-	\item SRTT = 99.472 ms
-	\item DevRTT = 40.039 ms
-	\item RTO = 259.629 ms
+	\item SRTT = 100 ms
+	\item DevRTT = 50 ms
+	\item RTO = 300 ms
 \end{enumerate}
 
-\textbf{STUDENT NOTES:} Assume that the ACK for packet 2 does not expire, per
-Piazza post. We retransmit packet 2 so we do not include this RTT in our
-calculation. We ignore that ``ACK \#2'' might be ambiguous as to which packet is
-being ACKed and assume we can still identify which packet this ACK corresponds
-to (ACKs arrive before we send more data, for the most part).
+\textbf{STUDENT NOTES:}
+\begin{itemize}
+  \item If we ignore that the ``ACK \#2''s might be ambiguous as to which
+packet is being ACKed and assume we can still identify which packet this ACK
+corresponds to (using, Selective ACKs), the values will be: SRTT = 99.472 ms,
+DevRTT = 40.039 ms, and RTO = 259.629 ms.
+  \item Assume that the ACK for packet 2 does not expire, per Piazza post.
+  \item We retransmit packet 2 so we do not include the RTT for ACK \# 6
+in our calculation.
+\end{itemize}
 
 \end{problem}
 
@@ -135,6 +140,8 @@ there are no random losses.
            less). In the context of this problem, that would be 7.5 Mbit/s.
            Note that if there were multiple TCP connections on this link, on
            average this behavior would encourage full utilization of the link.
+           Also note that in other cases the bandwidth can be calculated using:
+             $$\text{bandwidth} = \frac{\text{window size}\cdot\text{MSS}}{\text{RTT}}$$
   \end{enumerate}
 \end{answer}
 
