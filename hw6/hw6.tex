@@ -1,5 +1,6 @@
 \documentclass{report}
 \usepackage{homework}
+\usepackage{multicol}
 \solstrue
 
 \graphicspath{{images/}}
@@ -95,6 +96,7 @@ Calculate the network mask, the number of bits of the network, the number of end
 
 
 \begin{answer}{30em}
+  \begin{multicols*}{2}
   \begin{enumerate}
     \item network mask: 255.255.255.0\\
           network bits: 24\\
@@ -120,12 +122,15 @@ Calculate the network mask, the number of bits of the network, the number of end
           network address: 93.181.192.0\\
           broadcast address: 93.181.223.255
 
+    \columnbreak
+
     \item network mask: 255.192.0.0\\
           network bits: 10\\
           endpoint addresses: 4.194301e6\\
           network address: 10.128.0.0\\
           broadcast address: 10.191.255.255
   \end{enumerate}
+  \end{multicols*}
 \end{answer}
 
 \end{problem}
