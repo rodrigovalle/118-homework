@@ -24,16 +24,18 @@ Suppose an application generates chunks of 40 bytes of data, each chunk gets enc
 
 \begin{answer}{40em}
   \begin{enumerate}
-    \item There's 20 bytes of header information in the IP packet and 40 bytes
-          of data, for a total message size of 60 bytes. 33.3\% of each packet
-          will be overhead (the header) and 66.6\% application data.
+    \item There's 20 bytes of information in the TCP segment header, 20 bytes of
+          data in the IP datagram header, and 40 bytes of application data, for
+          a total message size of 80 bytes. 50\% of each packet will be overhead
+          (the header) and 50\% application data.
 
     \item We would need to send 9 packets to deliver 4000 bytes of data, fitting
           480 bytes of data in each IP packet as the header takes 20 bytes of
           space in each packet. After the 9 packets are delivered, we have sent
-          180 bytes of IP headers and 4000 bytes of application data. The
-          overhead in this delivery is 4.3\%, and application data accounted for
-          95.7\% of all bytes sent over the network.
+          180 bytes of IP headers and 4000 bytes of application data, and one
+          20 byte TCP header. The overhead (counting TCP/IP headers) in this
+          delivery is 4.76\%, and application data accounted for 95.24\% of all
+          bytes sent over the network.
   \end{enumerate}
 \end{answer}
 
@@ -69,11 +71,11 @@ For each of the fragment show the header length, total length, identification, f
   Protocol &
   Data size \\
   \hline
-  20 & 1500 & 123098 & 0 0 1 & 0    & 25 & 6 (TCP) & 1480 \\
-  20 & 1500 & 123098 & 0 0 1 & 1480 & 25 & 6 (TCP) & 1480 \\
-  20 & 1500 & 123098 & 0 0 1 & 2960 & 25 & 6 (TCP) & 1480 \\
-  20 & 1500 & 123098 & 0 0 1 & 4440 & 25 & 6 (TCP) & 1480 \\
-  20 & 203  & 123098 & 0 0 0 & 5920 & 25 & 6 (TCP) & 183  \\
+  5 (5*4 = 20 bytes) & 1500 & 123098 & 0 0 1 & 0    & 25 & 6 (TCP) & 1480 \\
+  5 (5*4 = 20 bytes) & 1500 & 123098 & 0 0 1 & 1480 & 25 & 6 (TCP) & 1480 \\
+  5 (5*4 = 20 bytes) & 1500 & 123098 & 0 0 1 & 2960 & 25 & 6 (TCP) & 1480 \\
+  5 (5*4 = 20 bytes) & 1500 & 123098 & 0 0 1 & 4440 & 25 & 6 (TCP) & 1480 \\
+  5 (5*4 = 20 bytes) & 203  & 123098 & 0 0 0 & 5920 & 25 & 6 (TCP) & 183  \\
   \hline
 \end{tabular}
 

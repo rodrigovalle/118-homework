@@ -1,0 +1,269 @@
+\documentclass{report}
+\usepackage{homework}
+\solstrue
+
+\renewcommand{\hmwkTitle}{Homework 8}
+
+% Discussion
+%
+
+\begin{document}
+\mktitle
+
+\clearpage
+\begin{problem}
+
+List link layer functions.  For each of the function, list categories (if
+applicable) and protocol/algorithm examples.
+
+\begin{answer}{42em}
+\begin{enumerate}
+  \item Data Framing: the beginning and end of transmission chunks must be marked
+    \begin{itemize}
+      \item HDLC Bit Stuffing
+      \item PPP Byte Stuffing
+      \item Consistent Overhead Byte Stuffing (COBS)
+    \end{itemize}
+
+  \item Error Detection: if there were transmission errors, they must be detected
+        and optionally corrected.
+    \begin{itemize}
+      \item Hamming Code (detection and correction)
+      \item Parity bit (Single bit for error detection, or two
+            dimensional to correct single bit errors).
+      \item Cyclic Redundancy Check (CRC)
+      \item Two-out-of-five Code (error detection)
+      \item Repetition, e.g., repeat each bit three times. (error detection and
+            correction)
+      \item Checksums (detection): usually not provided by the link layer but
+            rather the network (e.g. IP) and transmission (e.g. UDP) layers
+            above it.
+    \end{itemize}
+
+  \item Channel Access Protocols \\
+    Mostly concerned with broadcast mediums where everyone must share.
+    \begin{enumerate}
+      \item Channel Partitioning
+        \begin{itemize}
+          \item Time Division Multiple Access (TDMA): separate the channel
+                into slots for each host, you can decide to use your slot or not.
+          \item Frequency Division Multiple Access (FDMA): put everyone on a
+                different frequency or employ frequency hopping techniques.
+        \end{itemize}
+
+      \item Channel Allocation
+        \begin{enumerate}
+          \item Central Allocator: one machine decides who gets to talk
+          \item Token Passing: you get to talk if you're holding the token
+        \end{enumerate}
+
+      \item Random Access: talk whenever you want (when or be smart and talk
+        when no one else is talking)
+        \begin{itemize}
+          \item ALOHA, Slotted ALOHA
+          \item CSMA/CD, CSMA/CA
+        \end{itemize}
+    \end{enumerate}
+\end{enumerate}
+\end{answer}
+\end{problem}
+
+
+
+\clearpage
+\begin{problem}
+
+Consider two data sequences that are received from the network layer by the link
+layer processor.
+
+\begin{itemize}
+\item \texttt{0x00 0x01 0x02 0xFF 0x7E 0x7D 0x00 0x00 0x7D 0xFD 0x7E}
+\item \texttt{0x02 0x00 0x01 0x02 0x7D 0x00}
+\end{itemize}
+
+Create frame-encoded output (i.e., each input sequence should be encoded as a
+separate frame) using
+\begin{enumerate}
+\item HDLC byte stuffing
+\item PPP byte stuffing
+\item COBS
+\end{enumerate}
+
+
+\begin{answer}{45em}
+  \begin{enumerate}
+    \item HDLC
+      \begin{itemize}
+        \item \texttt{01111110 00000000 00000001 00000010 11111011 10111110 10011111 00100000 00000000 00001111 10011111 01101011 11101001 111110}
+        \item \texttt{01111110 00000010 00000000 00000001 00000010 01111100 10000000 00111111 0}
+
+      \end{itemize}
+
+    \item PPP
+      \begin{itemize}
+        \item \texttt{0x7e 0x00 0x01 0x02 0xff 0x7d 0x5e 0x7d 0x5d 0x00 0x00 0x7d 0x5d 0xfd 0x7d 0x5e 0x7e}
+        \item \texttt{0x7e 0x02 0x00 0x01 0x02 0x7d 0x5d 0x00 0x7e}
+      \end{itemize}
+
+    \item COBS: (Wikipedia says not to start with a \texttt{0x00} byte)
+      \begin{itemize}
+        \item \texttt{0x01 0x06 0x01 0x02 0xff 0x7e 0x7d 0x01 0x04 0x7d 0xfd 0x7e 0x00}
+        \item \texttt{0x02 0x02 0x04 0x01 0x02 0x7d 0x01 0x00}
+      \end{itemize}
+  \end{enumerate}
+\end{answer}
+\end{problem}
+
+
+\clearpage
+\begin{problem}
+
+Remember that Carrier Sensing Multiple Access (CSMA) protocols has several modes
+of operation, including 1-persistent, non-persistent, p-persistent.
+
+For each of the following protocols, which sensing mode is used.  For each,
+describe the rationale for the choice.
+
+\begin{enumerate}
+\item ALOHA
+\item Slotted ALOHA
+\item bus-based Ethernet (e.g., old 10base2)
+\item WiFi (e.g., 802.11abn)
+\end{enumerate}
+
+\begin{answer}{45em}
+  \begin{enumerate}
+    \item N/A:\@ ALOHA is not a CSMA protocol as it does not try to sense whether
+          the medium is busy before attempting to transmit. Rather, ALOHA shoots
+          first and asks questions later; when a collision is detected it will
+          try to retransmit the frame again with some probability.
+
+    \item N/A:\@ Slotted ALOHA is not CSMA in for the same reason as ALOHA, except
+          on collision it tries to retransmit the frame with some probability in
+          in each successive time slot.
+
+    \item 1-persistent: Ethernet uses CSMA/CD;\@ when the medium is sensed busy,
+          it will wait until it is idle and retransmit in the first avialable
+          slot where this condition is met. This aggressive approach makes sense
+          for bus Ethernet, where detecting a collision can be done quickly
+          while transmitting. When such a collision is detected it can be
+          cancelled immediately by transmitting a jam signal without having to
+          complete the transmission. Because handling collisions on Ethernet is
+          takes little time, it makes sense to try and transmit as soon as
+          possible and possibly incur a small penalty rather than adopt and
+          excessively conservative approach.
+
+    \item p-persistent: WiFi uses CSMA/CA; when a the medium is sensed busy,
+          it will wait until the medium is idle and try again with some
+          probability. This conservative approach makes sense for WiFi where
+          detecting and resolving packet collisions is significantly more
+          expensive because packets are transmitted in their entirety. This is
+          for two reasons: it's very difficult to listen for other transmissions
+          while you're transmitting (your transmission will annihilate any other
+          signals you might hear), and it's possible that your transmission
+          could be colliding with another tranmission at the receiver that you
+          can't hear.
+
+  \end{enumerate}
+\end{answer}
+\end{problem}
+
+\clearpage
+
+% First you gotta broadcast
+% A and router and switch 
+% B's mac address
+%
+% who replies back: A, dst MAC addr is 
+% switch and B can get the fram
+% A is a new entry in the switch table
+%
+% B sends the IP packet to A, now B knows A's MAC address
+% A source B, devices switch and A
+% new entries: no
+%
+% ---
+%
+% how to send from B to node C
+
+\begin{problem}
+
+Consider the following network topology with specified MAC addresses for network interfaces and the configured IP addresses:
+
+\begin{center}
+  \includegraphics[scale=0.7]{hw8-2.pdf}
+\end{center}
+
+Assume the network mask for both subnetworks is 255.255.255.0.
+\begin{enumerate}
+
+  \item Assume that routing tables are properly configured and the network just
+    started (i.e., all caches are empty), fill the following table to enumerate
+    Ethernet frames (in chronological order) needed for node B to send an IP
+    packet to 192.168.0.2 and receive a response back.
+
+  \begin{table}[H]
+    \centering
+    \begin{tabular*}{1.0\textwidth}{c | c | c | c | c}
+      \hline
+      frame \# & dst MAC addr               & src MAC addr               & \pbox{15cm}{device (s) that can get the \\frame, excluding the sender} & \pbox{20cm}{new entries added into \\the switch's table (if any)} \\ \hline
+      1        & \texttt{FF:FF:FF:FF:FF:FF} & \texttt{00:00:00:00:00:03} & Switch, Node A, Router                                                 & \texttt{00:00:00:00:00:03} $\rightarrow$ iface 3 \\  
+      2        & \texttt{00:00:00:00:00:03} & \texttt{00:00:00:00:00:02} & Switch, Node B                                                         & \texttt{00:00:00:00:00:02} $\rightarrow$ iface 2 \\ 
+      3        & \texttt{00:00:00:00:00:02} & \texttt{00:00:00:00:00:03} & Switch, Node A                                                         &                                               \\ 
+      4        & \texttt{00:00:00:00:00:03} & \texttt{00:00:00:00:00:02} & Switch, Node B                                                         &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+               &                            &                            &                                                                        &                                               \\ 
+    \end{tabular*}
+  \end{table}
+
+\clearpage
+  \item Assume that the previous operation is done, fill the following table to
+    enumerate Ethernet frames (in chronological order) for node B to send a
+    packet to 192.168.1.253 and receive a reply.
+  \begin{table}[H]
+    \centering
+    \begin{tabular*}{1.0\textwidth}{c | c | c | c | c}
+      \hline
+      frame \# & dst MAC addr               & src MAC addr               & \pbox{15cm}{device (s) that can get the\\ frame, excluding the sender} & \pbox{20cm}{new entries added into \\the switch's table (if any)} \\ \hline
+      1        & \texttt{FF:FF:FF:FF:FF:FF} & \texttt{00:00:00:00:00:03} & Switch, Router, Node A                                                 &                                                  \\ 
+      2        & \texttt{00:00:00:00:00:03} & \texttt{00:00:00:00:00:01} & Switch, Node B                                                         & \texttt{00:00:00:00:00:01} $\rightarrow$ iface 1 \\ 
+      3        & \texttt{00:00:00:00:00:01} & \texttt{00:00:00:00:00:03} & Switch, Router                                                         &                                                  \\ 
+      4        & \texttt{FF:FF:FF:FF:FF:FF} & \texttt{00:00:00:00:00:04} & Node C                                                                 &                                                  \\ 
+      5        & \texttt{00:00:00:00:00:04} & \texttt{00:00:00:00:00:05} & Router                                                                 &                                                  \\ 
+      6        & \texttt{00:00:00:00:00:05} & \texttt{00:00:00:00:00:04} & Node C                                                                 &                                                  \\ 
+      7        & \texttt{00:00:00:00:00:04} & \texttt{00:00:00:00:00:05} & Router                                                                 &                                                  \\ 
+      8        & \texttt{00:00:00:00:00:03} & \texttt{00:00:00:00:00:01} & Switch, Node B                                                         &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+               &                            &                            &                                                                        &                                                  \\ 
+    \end{tabular*}
+  \end{table}
+\end{enumerate}
+
+\end{problem}
+
+\end{document}
