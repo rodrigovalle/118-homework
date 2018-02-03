@@ -1,0 +1,122 @@
+MACAW
+ - DIFS
+ - SIFS
+ - CSMA/CA
+
+SMTP -- push, not like HTTP, which is pull
+PGP/GPG -- authenticate your message with a key
+
+SMTP -- assumes you can trust the mail server connections
+ - hack, you can pretend to be an SMTP server and send emails from whoever
+
+Mail Access protocols:
+ - POP3, IMAP, HTTP
+
+DNS
+ - Architecture of DNS: scalable + cache
+ - Records
+ - Query/Reply
+ - DNS dig
+
+CDN - Akamai
+Video Streaming protocols: DASH
+
+Transport Protocols:
+ - TCP
+ - UDP: header fields, checksum (no checksum calculation)
+
+Reliable Data Trasnfer
+ - sequence numbers
+ - acknowledgement
+ - retransmission timer
+ - go-back-n, sack, cumulative ack, etc.
+
+TCP
+ - header
+ - handshake (3 way handshake) and teardown (fin, how to set final timeout,
+   2 generals)
+ - flow control (congestion control)
+
+Setting TCP Retransmission Timer
+ - SampleRTT, SRTT, DevRTT, RTO
+ - Karn's algorithm -- don't consider ACKs for retransmitted packets
+
+Fast Retransmit
+
+Congestion Control
+
+Throughput
+
+Network Layer functionality (routing & forwarding)
+
+Virtual Circuit & data gram (circuit switching vs packet switching)
+
+IP datagram format
+IP fragmentation (calculating the fragments of a very long TCP packet, fields,
+                  flags: IF, MF, offset)
+Subnet (CIDR prefix notation)
+Special Addresses (IP classes A B C D, special IP classes, broadcast/network)
+Longest Prefix matching 
+NAT (Network Address Translation) (use port to map to inner hosts)
+DHCP
+
+IPv6 vs IPv4
+IPv6 tunneling
+ICMP/traceroute
+Routing Algorithms
+ - link state
+ - distance vector
+
+Count to Infinity
+ - split horizon
+ - split horizion + poison reverse
+
+OSPF Protocol: packet fmt
+
+Hierarchical architecture - Autonomous Systems
+BGP: i-BGP, e-BGP
+Even though you are within the same AS, need to know if intra-AS or i-BGP
+if the original packet came from a different AS and propogates into your AS you
+still use i-BGP
+if you want to learn about other routers, OSPF
+
+Link Layer: Unicast, Broadcast, Multicast
+Where LL is implemented
+Byte stuffing: HDLC, PPP, COBS
+
+Multiple access protocols
+channel partition: FDM, TDM, CDMA,
+Random access: aloha, slotted aloha, CSMA (know efficiency, eg ALOHA 1/2e)
+Taking turns: tokens
+1 persistent, p persistent, etc.
+
+Ethernet - Bus and start topo
+MAC Address
+Ethernet frame structure
+ARP IP address to MAC address
+Plug and Play
+Soft state
+difference between hub switch router
+switching forwarding table
+self learning
+
+wireless & mobile
+-------------------
+Cellular network: core difference from wifi, network tries to assign network
+channel to a user, very fine grained control
+
+full overview
+-------------
+DHCP:
+ - send UDP packet with broadcast ethernet frame to router
+ - unicast (ethernet) back to your device
+
+ARP query
+
+DNS
+
+send TCP SYN
+responds with TCP SYNACK
+
+ask for page with HTTP get
+send HTTP response

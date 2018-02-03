@@ -1,0 +1,99 @@
+Application Layer: models
+ - client-server model: Web (TCP), FTP (TCP), E-mail (TCP), DNS (UDP/TCP), RTP
+ - Peer-to-Peer (P2P): BitTorrent (TCP), Tor (aka Onion Routing, TCP)
+ - Hybrid model: Skype (TCP&UDP), GTalk (TCP&UDP)
+
+skype:
+ - national: connect directly
+ - international: goes through super-node first
+
+Application Layer: protocols
+HTTP: a stateless protocol on top of TCP
+ - hypertext: not only the text you see but also other objects
+    - links embedded in the text
+ - HTTP based on the pull model: client request followed by server response
+ - persistent HTTP vs non-persistent
+    - nonpersistent: close *HTTP connection* after every call/response
+    - presistent: keep *HTTP connection* open
+    - problem: nonpersistent causes issues with TCP congestion control
+
+ - HTTP methods
+    - GET, HEAD, POST, PUT, DELETE, Conditional GET
+    - defined by RFCs; categories of requests
+
+ - Non-persistent: repoen the connection each time. More RTTs and more overhead
+ - Persistent: keep requesting the objects over the same connection
+    - for N objects, N RTTS: 1 RTT per object; using the pulling model
+ - Pipelining: send requests for multiple objects at the same time and wait
+    - requests are generally short
+    - time: #bytes/rate
+    - rate = bandwidth
+
+HTTP connection vs TCP connection?
+ - both protocols but they sit at different layers
+ - HTTP: application layer
+ - TCP: transport layer
+    - connection management
+    - http asks for connection with GET, TCP opens connection to server
+
+Quiz
+- How many HTTP connections do we need to get one HTML file with 5 embedded
+  images? How many RTTs will we need?
+  Non-Persistent:
+   - 6 connections, 12 RTTs:
+      - 1 RTT for every HTTP connection we open
+      - 1 RTT for index.html
+      - 5 RTTs for 5 images
+  Persistent: 1 HTTP connection, 6 RTTs (extra RTT for connection setup??????)
+  Pipelining: 1 HTTP connection, 1 RTT + total_bytes_of_files_requested/rate
+
+- In TCP: three way handshake
+   - send packet from client to server containing protocol
+   - server gets packet and ACKs
+   - client ACKs and requests webpage (piggybacking)
+   - server responds with object
+   - connection setup is 1 RTT
+- TCP has different RTT (?) (leave TCP out of scope for now)
+
+- HTTP Header: request
+  - Method
+  - URL
+  - HTTP version
+  - Header lines
+  - CRLF
+
+- HTTP Header: response
+  - HTTP version
+  - Status code: what happened to your request
+  - Header lines
+  - CRLF
+  - Data requested
+   
+- Cookies make HTTP stateful
+   - http server use Set-cookie to assign these cookies
+   - http clients hold onto these cookies and bundle them with future requests
+
+Web caching: Proxy vs CDN
+ - Proxy acts as both client and server
+    - what if cache is stale?
+       - HTTP conditional GET: If-modified header, supported by HTTP 1.1
+       - sends a very short response
+ - CDN: Content Distriution Network
+    - reduce latency
+    - globally distributed network of web servers
+    - stores and replicates images, videos, and other files
+
+Application Layer: protocols
+ - FTP: separate control from data transmission ("out of band")
+    - control is done over one connection
+    - data transfer is done over another connection
+ - SMTP: protocol for email exchange between email servers
+    - based on push model
+    - operates ONLY between mail servers
+    - IMAP or POP3 for communicating with SMTP servers
+ - P2P: no always-on server, peers are intermittently connected
+    - BitTorrent: tracker and torrent. Files are divided into multiple chunks
+    - multiple chunks: no always on server, provides fault tolerance so
+      hopefully there is a computer available with that chunk available
+ - SMTP spoofing vulnerability: SMTP servers trust each other implicitly so
+   you can make a fake email from whoever you want

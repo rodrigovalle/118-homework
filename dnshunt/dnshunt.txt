@@ -1,0 +1,143 @@
+# Examples
+> dig +short google.com a @8.8.8.8
+> 172.217.5.78
+- 12ms ping ~ within 750 miles
+- 14 hops (~ in LA, based on lax17s15-in-f78.1e100.net)
+
+> dig +short google.com a @92.62.96.27
+> 216.58.211.142
+- 179ms ping ~ within 11,187 miles
+- 25 hops (~ may be in Stockholm, basd on arn09s10-in-f14.1e100.net)
+
+# I tried it a few times and got a different IPs
+# 1)
+> dig +short google.com a @8.8.8.8
+> 216.58.193.206
+- 73ms ping ~ within 7300000 km
+- 11 hops (~ in LA, based on lax02s23-in-f14.1e100.net)
+
+# 2)
+> dig +short google.com a @8.8.8.8
+> 172.217.11.174
+- 28ms ping ~ within 2800000 km
+- 11 hops (~ in LA, based on lax28s15-in-f14.1e100.net)
+
+# 3)
+> dig +short google.com a @8.8.8.8
+> 216.58.193.206
+- 27ms ping ~ within 2700000 km
+- 11 hops (~ in LA, based on lax02-in-f206.1e100.net)
+
+# 4)
+> dig +short google.com a @8.8.8.8
+> 216.58.193.206
+- 27ms ping ~ within 2700000 km
+- 11 hops (~ in LA, based on lax02-in-f206.1e100.net)
+
+# 5) DNS server in New York
+> dig +short google.com A @50.7.68.131
+> 172.217.20.78
+- 168ms ping ~ within 16800000 km
+- 20 hops (~ in Amsterdam, based on ams15s33-in-f14.1e100.net)
+
+# 6) DNS server in Guangzhou, China
+> dig +short google.com A @1.3.55.30
+> 172.217.24.14
+- 163ms ping ~ within 16300000 km
+- 17 hops (~ in Taipei, based on tsa01s07-in-f14.1e100.net)
+
+# 7) DNS server in Japan
+> dig +short google.com A @103.194.75.13
+> 172.217.26.46
+- 151ms ping ~ within 15100000 km
+- 15 hops (~ in Tokyo, based on nrt12s17-in-f46.1e100.net
+
+# 7) DNS server in Norway
+> dig +short google.com A @77.70.158.50
+> 172.217.16.174
+- 173ms ping ~ within 17300000 km
+- 20 hops (~ in Frankfurt, based on fra15s11-in-f174.1e100.net
+
+# 8) DNS server in Hong Kong
+> dig +short google.com A @103.194.244.93
+> 172.217.24.206
+- 179ms ping ~ within 17900000 km
+- 16 hops (~ in Hong Kong based on hkg12s13-in-f14.1e100.net
+
+# 9) DNS server in Chile
+> dig +short google.com A @186.103.138.164
+> 64.233.190.102
+- 178ms ping ~ within 17800000 km
+- 21 hops (~ in ???; traceroute couldn't determine hostname)
+
+# 10) DNS server in South Korea
+> dig +short google.com A @103.7.245.187
+> 119.149.188.29
+- 187ms ping ~ within 18700000 km
+- 30 hops (~ in South Korea, based on location of DNS server)
+
+# 10) DNS server in Fiji
+> dig +short google.com A @210.7.22.64
+> 119.235.103.15
+- 166ms ping ~ within 16600000 km
+- 30 hops (~ ???; traceroute couldn't determine hostname)
+
+# 11) DNS server in Spain
+> dig +short google.com A @80.91.86.49
+> 216.58.211.238
+- 173ms ping ~ within 17300000 km
+- 18 hops (~ Madrid, Spain based on mad01s24-in-f238.1e100.net)
+
+# 12) DNS server in Latvia
+> dig +short google.com A @89.111.13.60
+> 172.217.20.174
+- 186ms ping ~ within 18600000 km
+- 20 hops (~ in Warsaw, Poland based on waw02s07-in-f14.1e100.net
+
+# 13) DNS server in Ghana
+> dig +short google.com A @196.29.234.249
+> 172.217.26.206
+- 239ms ping ~ within 23900000 km
+- 15 hops (~ in Chennai, India based on maa03s23-in-f206.1e100.net)
+
+# 14) DNS server in Germany
+> dig +short google.com A @85.25.105.193
+> 64.233.167.102
+- 166ms ping ~ within 16600000 km
+- 26 hops (~ in ???: wl-in-f102.1e100.net)
+
+#15) DNS server in Singapore
+> dig +short google.com A @103.193.4.165
+> 74.125.200.113
+- 198ms ping ~ within 19800000 km
+- 22 hops (~ in ???: sa-in-f113.1e100.net)
+
+#16) DNS server in Denmark
+> dig +short google.com A @212.98.122.70
+> 212.98.120.31
+- 179ms ping ~ within 17900000 km
+- 30 hops (~ in ???; traceroute couldn't determine hostname)
+
+#17) DNS server in Denmark
+> dig +short google.com A @77.66.108.93
+> 74.125.128.113
+- 169ms ping ~ within 16900000 km
+- 20 hops (~ in ???: ec-in-f113.1e100.net)
+
+#18) DNS server in New York
+> dig +short google.com A @209.191.129.1
+> 172.217.10.78
+- 98ms ping ~ within 9800000 km
+- 18 hops (~ in New York, based on lga34s14-in-f14.1e100.net
+
+#19) DNS server in Seattle
+> dig +short google.com A @68.179.203.94
+> 216.58.193.110
+- 48ms ping ~ within 4800000 km
+- 16 hops (~ in Seattle, based on sea15s08-in-f110.1e100.net)
+
+#20) DNS server in San Francisco
+> dig +short google.com A @50.185.87.103
+> 172.217.6.46
+- 33ms ping ~ within 3300000 km
+- 15 hops (~ in San Francsico, based on sfo03s08-in-f14.1e100.net)
